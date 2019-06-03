@@ -19,8 +19,41 @@ function ExpressService($http, $q) {
     
     }
 
-
+    service.removeItem = (item) => {
+        return $q( (resolve, reject) => {
+            $http({
+                url: "/cartItems/" + item.id,
+                method: "DELETE"
+            })
+        }) .then( (response) => {
+            console.log(response.data);
+            resolve(response.data);
+        });
+    }
+    
+    
+    
+    service.updateItem = (id) => {
+        return $http({
+            url: "/cartItems/" + id,
+            method: "PUT",
+        }) .then( (response) => {
+            console.log(response.data);
+            resolve(response.data);
+        });
+    }
+    
+    service.addItem = (item) => {
+        service.cartList.push(item);
+        return $http({
+            url: "/cartItems/",
+            method: "POST"
+        }) .then( (response) => {
+            console.log(response.data);
+            resolve(response.data);
+        });
+    }
 
 angular
 .module('ExpressApp')
-.service('RedditService', ['$http', ExpressService]) 
+.service('ExpressService', ['$http', ExpressService]) 
